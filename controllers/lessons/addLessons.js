@@ -1,11 +1,13 @@
 const { lessonsModel } = require("../../models/tracks/lessons");
+const { coursesModel } = require("../../models/tracks/courses");
 
 const addLesson = async (req, res) => {
   try {
-    const courseId = req.params.id;
+    const courseId = req.params.courseId;
+    console.log("Course ID:", courseId);
     const { title, content, videoUrl, order } = req.body;
 
-    if (!title || !courseId || !videoUrl || !videoUrl.url || !order) {
+    if (!title || !videoUrl || !videoUrl.url || !order) {
       return res.status(400).json({
         message: "All fields are required.",
       });
@@ -33,15 +35,25 @@ const addLesson = async (req, res) => {
       title,
       content,
       videoUrl,
-      courseId,
+      courseId: courseId,
       order,
     });
 
-    const savedLesson = await newLesson.save();
+    const updatedCourse = await coursesModel.findByIdAndUpdate(
+      courseId,
+      {
+        $inc: { lessonCount: 1 },
+      },
+      { new: true },
+    );
 
-    await coursesModel.findByIdAndUpdate(lesson.courseId._id, {
-      $inc: { lessonsCount: 1 },
-    });
+    if (!updatedCourse) {
+      return res.status(404).json({
+        message: "Course not found.",
+      });
+    }
+
+    const savedLesson = await newLesson.save();
 
     res.status(201).json({
       message: "Lesson created successfully!",

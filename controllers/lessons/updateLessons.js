@@ -18,7 +18,7 @@ const updateLessons = async (req, res, next) => {
 
     const isAdmin = req.user.role === "admin";
     const isOwner =
-      lesson.courseId.instructorId.toString() === req.user._id.toString();
+      lesson.courseId.instructorId.toString() === req.user.id.toString();
 
     if (!isAdmin && !isOwner) {
       return res.status(403).json({

@@ -15,4 +15,4 @@ const filterAllowedFields = (data, allowedFields, userRole = null) => {
   return filtered;
 };
 
-module.exports = filterAllowedFields;
+module.exports = {filterAllowedFields};

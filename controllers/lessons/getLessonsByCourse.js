@@ -3,6 +3,7 @@ const { lessonsModel } = require("../../models/tracks/lessons");
 const getLessons = async (req, res) => {
   try {
     const courseId=req.params.courseId;
+    console.log("==================Course ID:", courseId);
     const lessons=await lessonsModel.find({ courseId },"title content duration order").sort({ order: 1 });
     
 

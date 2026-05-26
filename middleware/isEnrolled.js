@@ -1,10 +1,31 @@
 const { enrollmentModel } = require("../models/enrollment");
 const { coursesModel } = require("../models/tracks/courses");
+const { lessonsModel } = require("../models/tracks/lessons");
 
 const isEnrolled = async (req, res, next) => {
   try {
-    const courseId = req.params.id;
+    let courseId;
+    
+    if (req.params.courseId) {
 
+      courseId = req.params.courseId;
+
+    } 
+    else if (req.params.id) {
+
+      const lesson = await lessonsModel
+        .findById(req.params.id)
+        .select("courseId");
+
+      if (!lesson) {
+        return res.status(404).json({
+          message: "Lesson not found",
+        });
+      }
+
+      courseId = lesson.courseId;
+    console.log("Course ID from lesson:", courseId);
+    }
 
     const course = await coursesModel
       .findById(courseId)

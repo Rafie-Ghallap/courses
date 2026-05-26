@@ -13,14 +13,14 @@ const { isEnrolled } = require('../middleware/isEnrolled')
 
 router.use(checkAuth)
 
-router.get("course/:courseId/lessons",isEnrolled, getLessonsByCourse);
+router.get("/course/:courseId/lessons",isEnrolled, getLessonsByCourse);
 router.get("/lessons/:id",isEnrolled, getLessonById);
 
 
-router.use(checkRole('Admin','instructor'))
-router.post("course/:courseId/addLessons", addLessons);
-router.put("updateLessons/:lessonId", updateLessons);
-router.delete("deleteLesson/:lessonId", deleteLesson);
+router.use(checkRole(['Admin','instructor']))
+router.post("/course/:courseId/addLessons", addLessons);
+router.put("/updateLessons/:lessonId", updateLessons);
+router.delete("/deleteLesson/:lessonId", deleteLesson);
 
 
 module.exports=router
