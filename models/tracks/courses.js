@@ -8,6 +8,7 @@ const courseSchema = new mongoose.Schema({
 
   track_name: String,
 
+
   description: { type: String, maxlength: 500 },
 
   thumbnail: String,
@@ -15,6 +16,11 @@ const courseSchema = new mongoose.Schema({
   duration: Number,
 
   lessonCount: { type: Number, default: 0 },
+
+  isPaid: {
+    type: Boolean,
+    default: false,
+  },
 
   price: { type: Number, required: true },
 

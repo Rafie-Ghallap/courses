@@ -5,7 +5,7 @@ const updateCourse = async (req, res) => {
     const courseId = req.params.courseId;
     const updates = req.body;
     
-    const allowedFields = ["title", "description", "price", "thumbnail", "level" , "language","duration"];
+    const allowedFields = ["title", "description", "price", "thumbnail", "level" , "language","duration","isPaid"];
     const filteredUpdates = filterAllowedFields(updates, allowedFields, req.user.role);
 
     const course = await coursesModel.findByIdAndUpdate(courseId, filteredUpdates, { new: true });

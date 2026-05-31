@@ -57,6 +57,15 @@ app.use("/lessons", checkAuth, lessonsRouter);
 app.use("/enrollments", checkAuth, enrollmentRouter);
 app.use("/dashboard", checkAuth, dashboardRouter);
 
+const paymentRoutes = require(
+  "./router/paymentRouter"
+);
+
+app.use(
+  "/api/payment",
+  paymentRoutes
+);
+
 mongoose.connection.once("connected", () => {
   console.log("Connected to MongoDB");
   app.listen(process.env.PORT, () => {
