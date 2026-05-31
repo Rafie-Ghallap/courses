@@ -65,19 +65,6 @@ const interestsField = z.preprocess(
   z.array(z.string())
 );
 
-const achievementsField = z.preprocess(
-  (val) => (val === undefined ? [] : val),
-  z.array(
-    z.object({
-      title: z.string(),
-      dateEarned: z.preprocess(
-        (val) =>
-          typeof val == "string" || val instanceof Date ? new Date(val) : val,
-        z.date()
-      ),
-    })
-  )
-);
 
 const editUserProfileSchema = z.object({
   firstName: firstNameField,
@@ -89,10 +76,9 @@ const editUserProfileSchema = z.object({
   about: aboutField,
   birthDate: birthDateField,
   interests: interestsField,
-  achievements: achievementsField,
 });
 
 
 module.exports = {
-  editUserProfilevalidation: editUserProfileSchema,
+  editUserProfileValidation: editUserProfileSchema,
 };

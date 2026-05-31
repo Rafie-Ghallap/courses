@@ -1,6 +1,6 @@
 const { usersModel } = require("../../models/users/users");
 const {
-  editUserProfilValidation
+  editUserProfileValidation
 } = require("../../validations/profileValidations");
 
 const editProfile = async (req, res) => {
@@ -9,7 +9,7 @@ const editProfile = async (req, res) => {
     const userData = req.body;
 
     // validation
-    const parsed = editUserProfilValidation.safeParse(userData);
+    const parsed = editUserProfileValidation.safeParse(userData);
 
     if (!parsed.success) {
       return res.status(400).json({
