@@ -1,7 +1,7 @@
 const crypto = require("crypto");
 
 const { orderModel } = require("../../models/order");
-const { enrollmentModel } = require("../../models/Enrollment");
+const { enrollmentModel } = require("../../models/enrollment");
 
 // HMAC verification (important for security)
 const verifyHmac = (body) => {
