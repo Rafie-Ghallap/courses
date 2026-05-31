@@ -24,4 +24,15 @@ router.post(
   paymentWebhook
 );
 
+router.get("/response", (req, res) => {
+  const { success, order, id: transactionId } = req.query;
+ 
+  if (success === "true") {
+    // Redirect to a success page on your frontend
+    return res.redirect(`${process.env.FRONTEND_URL}/payment/success?order=${order}`);
+  }
+ 
+  res.redirect(`${process.env.FRONTEND_URL}/payment/failed?order=${order}`);
+});
+
 module.exports = router;
