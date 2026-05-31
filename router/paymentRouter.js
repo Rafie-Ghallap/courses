@@ -29,6 +29,14 @@ router.get("/response", (req, res) => {
  
   if (success === "true") {
     // Redirect to a success page on your frontend
+     await orderModel.findOneAndUpdate(
+      {
+        paymob_order_id: order,
+      },
+      {
+        status: "paid",
+      }
+    );
     return res.redirect(`${process.env.FRONTEND_URL}/6a153cad36ff5e7186838c00?type=paid`);
   }
  
