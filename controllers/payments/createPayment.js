@@ -255,6 +255,10 @@ const createPayment = async (req, res) => {
     });
   } catch (error) {
     // لو الـ order جديد ومعندوش transactionId بعد => نعمله failed
+console.log("URL:", error.config?.url);
+console.log("REQUEST:", error.config?.data);
+console.log("RESPONSE:", error.response?.data);
+
     if (order?._id && !order.transactionId) {
       await orderModel
         .findByIdAndUpdate(order._id, { status: "failed" })

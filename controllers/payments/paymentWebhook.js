@@ -3,8 +3,8 @@ const crypto = require("crypto");
 const { orderModel } = require("../../models/order");
 const { enrollmentModel } = require("../../models/enrollment");
 
-// HMAC verification (important for security)
-const verifyHmac = (body) => {
+
+const verifyHmac = (body, hmac) => {
   const hmacSecret = process.env.PAYMOB_HMAC_SECRET;
 
   const {
@@ -25,6 +25,7 @@ const verifyHmac = (body) => {
     owner,
     pending,
     success,
+    source_data,
   } = body.obj;
 
   const concatenatedString =
@@ -44,6 +45,9 @@ const verifyHmac = (body) => {
     order.id +
     owner +
     pending +
+    source_data.pan +
+    source_data.sub_type +
+    source_data.type +
     success;
 
   const hashed = crypto
@@ -51,7 +55,7 @@ const verifyHmac = (body) => {
     .update(concatenatedString)
     .digest("hex");
 
-  return hashed === body.hmac;
+  return hashed === hmac;
 };
 
 const paymentWebhook = async (req, res) => {
@@ -59,7 +63,7 @@ const paymentWebhook = async (req, res) => {
     const body = req.body;
 
     // 1) verify HMAC
-    const isValid = verifyHmac(body);
+    const isValid = verifyHmac(body, req.query.hmac);
 
     if (!isValid) {
       return res.status(400).json({
@@ -106,12 +110,14 @@ const paymentWebhook = async (req, res) => {
       order.status = "failed";
       await order.save();
     }
+
     console.log(
       "Payment webhook processed for order:",
       orderId,
       "Success:",
       isSuccess,
     );
+
     return res.status(200).json({
       success: true,
     });
