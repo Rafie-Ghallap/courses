@@ -1,4 +1,4 @@
-const { usersModel } = require("e:/nodes/codopia/Codopia/back-end/models/users/users");
+const { usersModel } = require("../../models/users/users");
 
 const getUserById = async(req, res) => {
     try {
