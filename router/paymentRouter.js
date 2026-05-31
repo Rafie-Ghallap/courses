@@ -29,7 +29,7 @@ router.get("/response", (req, res) => {
  
   if (success === "true") {
     // Redirect to a success page on your frontend
-    return res.redirect(`${process.env.FRONTEND_URL}/payment/success?order=${order}`);
+    return res.redirect(`${process.env.FRONTEND_URL}/6a153cad36ff5e7186838c00?type=paid`);
   }
  
   res.redirect(`${process.env.FRONTEND_URL}/payment/failed?order=${order}`);
